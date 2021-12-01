@@ -61,7 +61,6 @@ def main():
     print(sparse_matrix)
     print("Shape of sparse matrix:")
     print(sparse_matrix.shape)
-    
 
     #####################################################################
     # TODO:                                                             #
