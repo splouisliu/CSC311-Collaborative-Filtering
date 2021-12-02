@@ -127,8 +127,7 @@ def predict(model, query='test', weights=[1/3, 1/3, 1/3], threshold=0.5):
         # Predict on NN
         inputs = Variable(model.nn_zero_train_matrix[user_id]).unsqueeze(0).to(device)
         output = model.nn_model(inputs)
-        guess = output[0][question_id].item()
-        nn_preds.append(guess)
+        nn_preds.append(output[0][question_id].item())
     
     # Bag predictions
     bagged_preds = weights[0]*np.array(knn_preds) + weights[1]*np.array(irt_preds) + weights[2]*np.array(nn_preds) >= threshold
