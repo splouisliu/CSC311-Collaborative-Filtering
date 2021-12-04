@@ -28,7 +28,7 @@ def neg_log_likelihood(data, theta, beta):
     log_lklihood = 0.
 
     # Iterate through entire dictionary dataset and get beta_j, theta_i and c_ij
-    # Using dictionary directly means not worrying about c_ij=nan case
+    # Iterating through dictionary directly means not worrying about c_ij=nan case
     for iter in range(len(data['is_correct'])):
         c_ij = data['is_correct'][iter]
         i = data['user_id'][iter]
@@ -71,9 +71,8 @@ def update_theta_beta(data, lr, theta, beta, iterations):
     c_ij = np.array(data['is_correct'])
 
     # Perform Alternating Gradient Descent
-        
     if (iterations%2):  # Update Theta
-        #print("Iteration: " + str(iterations) + " Updating Theta")
+        print("Iteration: " + str(iterations) + " (Updating Theta)")
         
         # Create a container to store new theta vector and populate it
         theta_new = np.zeros_like(theta)
@@ -87,7 +86,7 @@ def update_theta_beta(data, lr, theta, beta, iterations):
         return theta_new, beta
     
     else:   # Update Beta
-        #print("Iteration: " + str(iterations) + " Updating Beta")
+        print("Iteration: " + str(iterations) + " (Updating Beta)")
         
         # Create a container to store new beta vector and populate it
         beta_new = np.zeros_like(beta)
@@ -118,35 +117,35 @@ def irt(train_data, val_data, lr, iterations):
     :return: (theta, beta, val_acc_lst)
     """
     # TODO: Initialize theta and beta.
-    np.random.seed(818)
+    # np.random.seed(818)
     # theta = np.random.rand(max(np.array(train_data['user_id']))+1)
     # beta = np.random.rand(max(np.array(train_data['question_id']))+1)
     theta = np.zeros(max(np.array(train_data['user_id']))+1)
     beta = np.zeros(max(np.array(train_data['question_id']))+1)
     
-    train_acc_lst = []
+    train_acc_list = []
     train_llds = []
-    val_acc_lst = []
+    val_acc_list = []
     val_llds = []
 
     for iter in range(iterations):
         train_neg_lld = neg_log_likelihood(train_data, theta=theta, beta=beta)
         train_llds.append(train_neg_lld)
         train_score = evaluate(data=train_data, theta=theta, beta=beta)
-        train_acc_lst.append(train_score)
-        #print("Train NLLK: {} \t Train Score: {}".format(train_neg_lld, train_score))
+        train_acc_list.append(train_score)
+        print("Train NLLK: {} \t Train Score: {}".format(train_neg_lld, train_score))
         
         val_neg_lld = neg_log_likelihood(val_data, theta=theta, beta=beta)
         val_llds.append(val_neg_lld)
         val_score = evaluate(data=val_data, theta=theta, beta=beta)
-        val_acc_lst.append(val_score)
-        #print("Val NLLK: {} \t Val Score: {}".format(val_neg_lld, val_score))
+        val_acc_list.append(val_score)
+        print("Val NLLK: {} \t Val Score: {}".format(val_neg_lld, val_score))
         
         theta, beta = update_theta_beta(train_data, lr, theta, beta, iter)
         #print("Theta: {} \t Beta: {}".format(theta, beta))
 
     # TODO: You may change the return values to achieve what you want.
-    return theta, beta, train_acc_lst ,val_acc_lst, train_llds, val_llds
+    return theta, beta, train_acc_list ,val_acc_list, train_llds, val_llds
 
 
 def evaluate(data, theta, beta):
@@ -169,11 +168,11 @@ def evaluate(data, theta, beta):
   
            
 def main():
-    train_data = load_train_csv("../data")
+    train_data = load_train_csv("./data")
     # You may optionally use the sparse matrix.
-    sparse_matrix = load_train_sparse("../data")
-    val_data = load_valid_csv("../data")
-    test_data = load_public_test_csv("../data")
+    sparse_matrix = load_train_sparse("./data")
+    val_data = load_valid_csv("./data")
+    test_data = load_public_test_csv("./data")
     
     #####################################################################
     # TODO:                                                             #

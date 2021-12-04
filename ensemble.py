@@ -153,11 +153,11 @@ def main():
     knn_k = 11
 
     irt_lr = 0.01
-    irt_iterations = 40
+    irt_iterations = 26
 
     nn_k = 50
     nn_lr = 0.01
-    nn_epochs = 50
+    nn_epochs = 60
     nn_lamb = 0.001
 
     # Train model
